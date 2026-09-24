@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLC CLOUD | MULTI-BRAND LIVE AUTOMATION (WEB EDITION)</title>
+    <title>HLC CLOUD | MULTI-BRAND LIVE AUTOMATION v2 (WEB EDITION)</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#38bdf8">
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Thư viện OBS WebSocket v5 cho trình duyệt (load local hoặc fallback CDN) -->
     <script src="obs-ws.min.js"></script>
@@ -61,8 +63,8 @@
             <div class="inline-block p-3 rounded-full bg-sky-500/10 mb-4 border border-sky-500/30">
                 <svg class="w-8 h-8 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
             </div>
-            <h1 class="text-3xl font-black neon-text mb-1 tracking-wider">HLC CLOUD</h1>
-            <p class="text-slate-400 text-xs mb-6 uppercase tracking-widest font-mono">GITHUB PAGES WEB EDITION v15.0</p>
+            <h1 class="text-3xl font-black neon-text mb-1 tracking-wider">HLC CLOUD v2</h1>
+            <p class="text-slate-400 text-xs mb-6 uppercase tracking-widest font-mono">AUTOPILOT OBS LIVE SYSTEM v2.0</p>
             <input type="password" id="key-input" class="w-full p-3.5 bg-slate-900 border border-slate-700 rounded-xl mb-4 text-center text-white outline-none focus:border-sky-500 tracking-widest font-mono text-sm transition-all" placeholder="NHẬP CLOUD API KEY" onkeypress="if(event.key==='Enter') validateCloudKey()">
             <button onclick="validateCloudKey()" class="w-full p-3.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-sky-600/30">KÍCH HOẠT HỆ THỐNG</button>
             <p id="error-msg" class="text-rose-400 mt-4 text-xs font-semibold hidden"></p>
@@ -72,18 +74,18 @@
     <!-- Container Chính -->
     <div class="max-w-7xl mx-auto w-full flex-grow">
         <!-- Header -->
-        <header class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-slate-800">
+        <header class="flex flex-wrap justify-between items-center gap-4 mb-4 pb-4 border-b border-slate-800">
             <div class="flex items-center gap-4">
                 <div class="p-2.5 bg-sky-500/10 border border-sky-500/30 rounded-xl">
                     <svg class="w-7 h-7 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <div>
-                    <h1 class="text-3xl font-black tracking-tight">HLC <span class="neon-text">HYBRID CENTER</span></h1>
+                    <h1 class="text-3xl font-black tracking-tight">HLC <span class="neon-text">HYBRID CENTER</span> <span class="text-xs bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded border border-sky-500/40 align-middle">v2 PRO</span></h1>
                     <div class="flex items-center gap-2 mt-1">
                         <span id="status-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-950/60 text-amber-400 border border-amber-700/50">
                             🟡 CHẾ ĐỘ CHỜ (STANDBY)
                         </span>
-                        <p class="text-slate-400 text-xs font-mono">OBS SCENE DISCOVERY PROTOCOL</p>
+                        <p class="text-slate-400 text-xs font-mono">EXECUTE-BATCH &bull; WEB WORKER ENGINE</p>
                     </div>
                 </div>
                 <!-- Badge Kết Nối OBS WebSocket Cục Bộ -->
@@ -110,8 +112,8 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     </button>
                     <!-- Nút Tạm Dừng / Standby -->
-                    <button id="standby-btn" onclick="setStandby()" title="Tạm dừng / Chuyển về chế độ chờ" class="px-2.5 py-1 bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white rounded-lg border border-amber-500/40 text-xs font-bold transition-all hidden">
-                        ⏸ Chờ
+                    <button id="standby-btn" onclick="setStandby()" title="Tạm dừng / Chuyển về chế độ chờ (Phím tắt: Space)" class="px-2.5 py-1 bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white rounded-lg border border-amber-500/40 text-xs font-bold transition-all hidden">
+                        ⏸ Chờ [Space]
                     </button>
                 </div>
 
@@ -122,9 +124,9 @@
                 </button>
 
                 <!-- Nút Start/Stop Live Stream trực tiếp sang OBS -->
-                <button id="stream-control-btn" onclick="toggleStreamControl()" class="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border bg-rose-950/40 text-rose-300 border-rose-700/60 hover:bg-rose-600 hover:text-white shadow-lg shadow-rose-950/50">
+                <button id="stream-control-btn" onclick="toggleStreamControl()" title="Phím tắt nhanh: Phím L" class="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border bg-rose-950/40 text-rose-300 border-rose-700/60 hover:bg-rose-600 hover:text-white shadow-lg shadow-rose-950/50">
                     <span id="stream-dot" class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                    <span id="stream-btn-text">Bắt Đầu Live</span>
+                    <span id="stream-btn-text">Bắt Đầu Live [L]</span>
                 </button>
 
                 <!-- Quota -->
@@ -140,6 +142,24 @@
             </div>
         </header>
 
+        <!-- STREAM DECK HUD: THANH PHÍM TẮT NHANH -->
+        <div class="mb-5 px-4 py-2.5 glass rounded-2xl border border-sky-500/20 flex flex-wrap items-center justify-between gap-3 text-xs shadow-lg">
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 font-bold text-[10px] tracking-wider border border-sky-500/40 flex items-center gap-1">
+                    <span>🎮</span> STREAM DECK HUD
+                </span>
+                <span class="text-slate-400 text-[11px] hidden sm:inline">Phím tắt bàn phím siêu tốc:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-[11px] font-mono text-slate-300">
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-sky-400 font-bold">1..28</kbd> Xếp Queue</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-rose-400 font-bold">Shift + Số</kbd> Cắt Phát Ngay</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-amber-400 font-bold">Space</kbd> Chờ / Chạy</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-emerald-400 font-bold">F</kbd> Fast-Track</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-rose-400 font-bold">L</kbd> Live Stream</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-400 font-bold">/</kbd> Tìm Video</span>
+            </div>
+        </div>
+
         <!-- Main Layout Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <!-- Left Side (3 cols): Active Player & Dynamic Matrix Grid -->
@@ -153,11 +173,12 @@
                                 <span class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Active Output Pipeline</span>
                                 <span id="brand-tag" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 font-mono">Chưa chọn Scene</span>
                                 <span id="scene-tag" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 font-mono">Standby</span>
+                                <span class="text-[10px] bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-2 py-0.5 rounded font-mono">⚡ 0ms Batch</span>
                             </div>
                             <h2 id="vid" class="text-3xl font-extrabold text-white mt-1.5 tracking-wide">Chế độ chờ (Vui lòng chọn Scene)</h2>
                         </div>
                         <div class="text-right">
-                            <span class="text-[10px] text-slate-400 uppercase tracking-widest block font-semibold">Còn lại</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest block font-semibold">Còn lại (Web Worker)</span>
                             <div id="timer" class="text-4xl font-mono text-amber-400 font-bold">0.0s</div>
                         </div>
                     </div>
@@ -175,9 +196,9 @@
                             <span id="video-count-badge" class="text-[10px] bg-sky-950 text-sky-400 border border-sky-800 px-2 py-0.5 rounded-full font-mono">0 Videos (base_*)</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <input type="text" id="filter-input" onkeyup="filterVideos()" placeholder="Tìm nhanh video..." class="bg-slate-900 text-xs px-3 py-1.5 rounded-lg border border-slate-700 outline-none focus:border-sky-500 w-40 text-slate-200">
-                            <button id="ft-btn" onclick="toggleFT()" class="px-4 py-1.5 rounded-full border border-slate-700 text-[11px] font-bold uppercase transition-all flex items-center gap-1.5 text-slate-300 hover:border-amber-500">
-                                <span>⚡ FAST TRACK:</span> <span id="ft-st">OFF</span>
+                            <input type="text" id="filter-input" onkeyup="filterVideos()" placeholder="Tìm nhanh video... [/]" class="bg-slate-900 text-xs px-3 py-1.5 rounded-lg border border-slate-700 outline-none focus:border-sky-500 w-44 text-slate-200">
+                            <button id="ft-btn" onclick="toggleFT()" title="Phím tắt: F" class="px-4 py-1.5 rounded-full border border-slate-700 text-[11px] font-bold uppercase transition-all flex items-center gap-1.5 text-slate-300 hover:border-amber-500">
+                                <span>⚡ FAST TRACK [F]:</span> <span id="ft-st">OFF</span>
                             </button>
                         </div>
                     </div>
@@ -193,10 +214,10 @@
                 </div>
             </div>
 
-            <!-- Right Side (1 col): Queue & Live Logs -->
+            <!-- Right Side (1 col): Queue, Auto-Pilot AI, & Live Logs -->
             <div class="lg:col-span-1 flex flex-col gap-6">
                 <!-- Next Pipeline Queue -->
-                <div class="glass p-5 rounded-2xl flex flex-col h-64 overflow-hidden shadow-xl border-t-2 border-sky-500/40">
+                <div class="glass p-5 rounded-2xl flex flex-col h-56 overflow-hidden shadow-xl border-t-2 border-sky-500/40">
                     <div class="flex justify-between items-center mb-3">
                         <h3 class="neon-text text-xs font-bold uppercase tracking-wider flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -209,8 +230,35 @@
                     </div>
                 </div>
 
+                <!-- AUTO-PILOT AI: LIVE CHAT TRIGGER -->
+                <div class="glass p-5 rounded-2xl flex flex-col gap-3 shadow-xl border-t-2 border-emerald-500/50">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            Auto-Pilot AI Chat Trigger
+                        </h3>
+                        <span id="autopilot-badge" class="text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono font-bold">READY</span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                        Tự động nhận diện từ khóa bình luận (<code class="text-emerald-400 font-mono">mẫu 4</code>, <code class="text-emerald-400 font-mono">áo 12</code>, <code class="text-emerald-400 font-mono">mã 8</code>...) để đổi video ngay!
+                    </p>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400 text-[11px]">Chế độ:</span>
+                        <button id="btn-autopilot-mode" onclick="toggleAutoPilotMode()" class="px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-950/40 text-sky-300 font-bold text-[10px] uppercase transition-all">
+                            📥 Tự Xếp Hàng Đợi (Queue)
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-sim-input" placeholder="Nhập thử bình luận khách..." class="bg-slate-900 border border-slate-700 text-white text-xs px-3 py-2 rounded-xl flex-grow outline-none focus:border-emerald-500 transition-all font-mono" onkeypress="if(event.key==='Enter') simulateLiveChat()">
+                        <button type="button" onclick="simulateLiveChat()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg shadow-emerald-600/30 flex items-center gap-1">
+                            <span>Gửi</span>
+                            <span>🚀</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Live Logs -->
-                <div class="glass p-5 rounded-2xl flex flex-col h-80 overflow-hidden shadow-xl border-t-2 border-amber-500/50">
+                <div class="glass p-5 rounded-2xl flex flex-col h-72 overflow-hidden shadow-xl border-t-2 border-amber-500/50">
                     <h3 class="text-amber-400 text-xs font-bold mb-3 uppercase tracking-wider flex justify-between items-center">
                         <span class="flex items-center gap-1.5">
                             <svg class="w-4 h-4 text-amber-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -219,7 +267,7 @@
                         <span class="text-[9px] bg-amber-500/20 px-2 py-0.5 rounded text-amber-300 font-mono">STREAM</span>
                     </h3>
                     <div id="log-box" class="terminal p-3 rounded-xl text-[10px] text-emerald-400 overflow-y-auto flex-grow space-y-1.5 select-text font-mono">
-                        <div class="text-slate-600 italic">Khởi động hệ thống Web Edition...</div>
+                        <div class="text-slate-600 italic">Khởi động hệ thống Web Edition v2...</div>
                     </div>
                 </div>
             </div>
@@ -228,7 +276,7 @@
 
     <!-- Footer -->
     <footer class="mt-8 text-center text-[11px] text-slate-500 font-mono">
-        HLC CLOUD HYBRID AUTOMATION &copy; 2026 | GITHUB PAGES PURE WEB EDITION
+        HLC CLOUD HYBRID AUTOMATION v2 &copy; 2026 | EXECUTE-BATCH &bull; WEB WORKER &bull; AUTOPILOT AI
     </footer>
 
     <!-- MODAL: CÀI ĐẶT RTMP SERVER & STREAM KEY -->
@@ -364,7 +412,7 @@
         </div>
     </div>
 
-    <!-- LOGIC JAVASCRIPT ĐIỀU KHIỂN THUẦN (FULL CLIENT-SIDE) -->
+    <!-- LOGIC JAVASCRIPT ĐIỀU KHIỂN THUẦN (FULL CLIENT-SIDE v2) -->
     <script>
         // --- CẤU HÌNH SUPABASE CLOUD & TRẠNG THÁI CLIENT ---
         const SUPABASE_URL = "https://frredpdjfmafluafkrmr.supabase.co";
@@ -385,12 +433,63 @@
             queue: [],
             fastTrack: false,
             videos: [],
-            sceneItems: [], // Danh sách raw items của OBS
-            timerInterval: null
+            sceneItems: [] // Danh sách raw items của OBS
         };
 
         let obs = null;
         let isStreamingActive = false;
+        let autopilotMode = 'queue'; // 'queue' hoặc 'fast_track'
+
+        // --- WEB WORKER ENGINE: ĐẾM GIỜ CHỐNG ĐỨNG HÌNH KHI ẨN TAB ---
+        const workerScript = `
+            let timer = null;
+            self.onmessage = function(e) {
+                if (e.data === 'START') {
+                    if (timer) clearInterval(timer);
+                    timer = setInterval(() => {
+                        self.postMessage('TICK');
+                    }, 100);
+                } else if (e.data === 'STOP') {
+                    if (timer) clearInterval(timer);
+                    timer = null;
+                }
+            };
+        `;
+        const workerBlob = new Blob([workerScript], { type: 'application/javascript' });
+        const timerWorker = new Worker(URL.createObjectURL(workerBlob));
+
+        timerWorker.onmessage = function(e) {
+            if (e.data === 'TICK') {
+                onTimerTick();
+            }
+        };
+
+        function startWorkerTimer() {
+            timerWorker.postMessage('START');
+        }
+
+        function stopWorkerTimer() {
+            timerWorker.postMessage('STOP');
+        }
+
+        function onTimerTick() {
+            if (!state.isRunning) {
+                stopWorkerTimer();
+                return;
+            }
+
+            state.remaining -= 0.1;
+            if (state.remaining < 0) state.remaining = 0;
+
+            state.progress = state.duration > 0 ? ((state.duration - state.remaining) / state.duration) * 100 : 0;
+            updatePipelineUI();
+
+            // Khi hết video -> Chuyển video kế tiếp
+            if (state.remaining <= 0) {
+                stopWorkerTimer();
+                onVideoFinished();
+            }
+        }
 
         // --- HÀM HỖ TRỢ LOG VÀ ĐỒNG BỘ GIAO DIỆN ---
         function addLog(tag, message) {
@@ -407,6 +506,7 @@
             if (tag === "SYSTEM") cls = "text-cyan-400";
             if (tag === "AUTH") cls = "text-amber-300 font-semibold";
             if (tag === "STREAM") cls = "text-rose-400";
+            if (tag === "AUTO-PILOT") cls = "text-emerald-300 font-bold";
 
             const row = document.createElement('div');
             row.className = cls;
@@ -593,7 +693,6 @@
                 if (state.currentScene && scenes.includes(state.currentScene)) {
                     select.value = state.currentScene;
                 } else if (res.currentProgramSceneName && scenes.includes(res.currentProgramSceneName)) {
-                    // Tự động nhận diện scene đang mở trên OBS
                     addLog("OBS", `🔍 Nhận diện Program Scene: ${res.currentProgramSceneName}`);
                 }
             } catch (e) {
@@ -613,35 +712,30 @@
 
             try {
                 addLog("SCENE", `Đang chuyển sang Scene: ${sceneName}...`);
-                // 1. Chuyển Program Scene trên OBS
                 await obs.call('SetCurrentProgramScene', { sceneName: sceneName });
 
                 state.currentScene = sceneName;
                 document.getElementById('brand-tag').innerText = sceneName;
                 document.getElementById('scene-tag').innerText = `OBS: ${sceneName}`;
 
-                // 2. Lấy danh sách item trong Scene
                 const itemsRes = await obs.call('GetSceneItemList', { sceneName: sceneName });
                 state.sceneItems = itemsRes.sceneItems || [];
 
-                // 3. Lọc chỉ lấy các source có tên dạng base_*
                 const baseSources = state.sceneItems.filter(item => {
                     const name = (item.sourceName || '').toLowerCase();
                     return name.startsWith('base_') || name.startsWith('base');
                 });
 
-                // 4. Sắp xếp tự nhiên theo số thứ tự (ví dụ: base_1, base_2, ..., base_28)
                 baseSources.sort((a, b) => {
                     const numA = parseInt((a.sourceName.match(/\d+/) || [9999])[0], 10);
                     const numB = parseInt((b.sourceName.match(/\d+/) || [9999])[0], 10);
                     return numA - numB;
                 });
 
-                // 5. Đo thời lượng từng video bằng lệnh GetMediaInputStatus
                 state.videos = [];
                 for (let i = 0; i < baseSources.length; i++) {
                     const it = baseSources[i];
-                    let duration = 35.0; // fallback mặc định
+                    let duration = 35.0;
                     try {
                         const status = await obs.call('GetMediaInputStatus', { inputName: it.sourceName });
                         if (status && status.mediaDuration > 0) {
@@ -658,7 +752,6 @@
                     });
                 }
 
-                // 6. Hiển thị lên Matrix Grid
                 renderVideoGrid(state.videos);
                 document.getElementById('video-count-badge').innerText = `${state.videos.length} Videos (base_*)`;
 
@@ -726,7 +819,7 @@
             }
         }
 
-        // --- BỘ NÃO VÒNG LẶP VIDEO (LOOP ENGINE) ---
+        // --- BỘ NÃO VÒNG LẶP VIDEO: KẾT HỢP EXECUTE-BATCH & WEB WORKER ---
         async function playVideoByIndex(idx) {
             if (!state.isRunning || state.videos.length === 0) return;
             if (idx < 0 || idx >= state.videos.length) idx = 0;
@@ -748,36 +841,47 @@
             addLog("OBS", `🎬 Đang phát: ${videoItem.name} (Scene: ${sceneName})`);
             updatePipelineUI();
 
-            // 1. CHỈ TẮT MẮT CÁC SOURCE BASE_* KHÁC (Bảo vệ tuyệt đối camera, logo, text, v.v.)
+            // 1. EXECUTE-BATCH SIÊU TỐC (<5ms): Gộp tắt các base_* cũ, bật base_* mới & restart vào 1 request
+            const batchRequests = [];
             for (const it of state.sceneItems) {
                 const sName = (it.sourceName || '').toLowerCase();
                 if ((sName.startsWith('base_') || sName.startsWith('base')) && it.sceneItemId !== videoItem.sceneItemId) {
-                    try {
-                        await obs.call('SetSceneItemEnabled', {
+                    batchRequests.push({
+                        requestType: "SetSceneItemEnabled",
+                        requestData: {
                             sceneName: sceneName,
                             sceneItemId: it.sceneItemId,
                             sceneItemEnabled: false
-                        });
-                    } catch (e) {}
+                        }
+                    });
                 }
             }
-
-            // 2. BẬT MẮT SOURCE MỚI VÀ PHÁT LẠI TỪ ĐẦU
-            try {
-                await obs.call('SetSceneItemEnabled', {
+            batchRequests.push({
+                requestType: "SetSceneItemEnabled",
+                requestData: {
                     sceneName: sceneName,
                     sceneItemId: videoItem.sceneItemId,
                     sceneItemEnabled: true
-                });
-                await obs.call('TriggerMediaInputAction', {
+                }
+            });
+            batchRequests.push({
+                requestType: "TriggerMediaInputAction",
+                requestData: {
                     inputName: videoItem.name,
                     mediaAction: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART'
-                });
+                }
+            });
+
+            try {
+                await obs.call('ExecuteBatch', { requests: batchRequests, executionType: 0 });
             } catch (e) {
-                addLog("OBS", `⚠️ Lỗi kích hoạt media: ${e.message}`);
+                // Fallback nếu OBS cũ
+                for (const req of batchRequests) {
+                    try { await obs.call(req.requestType, req.requestData); } catch (err) {}
+                }
             }
 
-            // 3. ĐO LẠI THỜI LƯỢNG CHÍNH XÁC NẾU TRƯỚC ĐÓ CHƯA CÓ
+            // 2. ĐO LẠI THỜI LƯỢNG CHÍNH XÁC NẾU TRƯỚC ĐÓ CHƯA CÓ
             try {
                 const status = await obs.call('GetMediaInputStatus', { inputName: videoItem.name });
                 if (status && status.mediaDuration > 0) {
@@ -795,34 +899,14 @@
             // Trừ Quota Supabase
             deductQuota();
 
-            // 4. CHẠY VÒNG LẶP ĐẾM NGƯỢC THỜI GIAN THỰC (INTERVAL 100ms)
-            if (state.timerInterval) clearInterval(state.timerInterval);
-
-            const intervalMs = 100;
-            state.timerInterval = setInterval(() => {
-                if (!state.isRunning) {
-                    clearInterval(state.timerInterval);
-                    return;
-                }
-
-                state.remaining -= (intervalMs / 1000.0);
-                if (state.remaining < 0) state.remaining = 0;
-
-                state.progress = ((state.duration - state.remaining) / state.duration) * 100;
-                updatePipelineUI();
-
-                // Khi hết video -> Chuyển video kế tiếp
-                if (state.remaining <= 0) {
-                    clearInterval(state.timerInterval);
-                    onVideoFinished();
-                }
-            }, intervalMs);
+            // 3. KÍCH HOẠT WEB WORKER ĐẾM NGƯỢC (CHỐNG NGỦ TAB KHI MINIMIZE TRÌNH DUYỆT)
+            startWorkerTimer();
         }
 
         function onVideoFinished() {
             if (!state.isRunning || state.videos.length === 0) return;
 
-            // Kiểm tra xem có video trong hàng đợi Queue không
+            // Kiểm tra hàng đợi Queue
             if (state.queue.length > 0) {
                 const nextVideoName = state.queue.shift();
                 updateQueueUI();
@@ -833,7 +917,7 @@
                 }
             }
 
-            // Nếu không có queue -> Phát video tiếp theo tuần tự
+            // Phát tuần tự
             let nextIdx = (state.currentVideoIdx + 1) % state.videos.length;
             playVideoByIndex(nextIdx);
         }
@@ -850,7 +934,7 @@
                 const targetIdx = state.videos.findIndex(v => v.name === videoName);
                 if (targetIdx !== -1) {
                     addLog("FAST-SWITCH", `⚡ [FAST SWITCH] Cắt ngang ngay sang video: ${videoName}`);
-                    if (state.timerInterval) clearInterval(state.timerInterval);
+                    stopWorkerTimer();
                     playVideoByIndex(targetIdx);
                 }
             } else {
@@ -887,7 +971,6 @@
             document.getElementById('timer').innerText = state.remaining.toFixed(1) + 's';
             document.getElementById('bar').style.width = Math.min(100, Math.max(0, state.progress)).toFixed(1) + '%';
 
-            // Highlight video card đang phát
             document.querySelectorAll('.video-card').forEach(n => {
                 const isPlaying = (n.getAttribute('data-name') === state.currentVideo);
                 n.classList.toggle('video-active', isPlaying);
@@ -918,7 +1001,7 @@
 
         function setStandby() {
             state.isRunning = false;
-            if (state.timerInterval) clearInterval(state.timerInterval);
+            stopWorkerTimer();
             state.queue = [];
             state.currentVideo = "Chế độ chờ (Vui lòng chọn Scene)";
             updateUIStatus(false);
@@ -1056,12 +1139,12 @@
                     isStreamingActive = true;
                     btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border bg-rose-600 text-white border-rose-500 shadow-lg shadow-rose-600/50 animate-pulse";
                     dot.className = "w-2.5 h-2.5 rounded-full bg-white";
-                    text.innerText = `Dừng Live (${res.outputTimecode || 'LIVE'})`;
+                    text.innerText = `Dừng Live (${res.outputTimecode || 'LIVE'}) [L]`;
                 } else {
                     isStreamingActive = false;
                     btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border bg-rose-950/40 text-rose-300 border-rose-700/60 hover:bg-rose-600 hover:text-white shadow-lg shadow-rose-950/50";
                     dot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
-                    text.innerText = "Bắt Đầu Live";
+                    text.innerText = "Bắt Đầu Live [L]";
                 }
             } catch (e) {}
         }
@@ -1077,8 +1160,166 @@
             }
         }
 
-        // --- KHỞI ĐỘNG HỆ THỐNG ---
+        // --- PHÍM TẮT BÀN PHÍM (KEYBOARD SHORTCUTS & STREAM DECK HUD) ---
+        let keyBuffer = '';
+        let keyBufferTimeout = null;
+
+        window.addEventListener('keydown', (e) => {
+            if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                return;
+            }
+
+            // Spacebar: Toggle Chờ/Chạy
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (state.isRunning) {
+                    setStandby();
+                } else if (state.videos.length > 0) {
+                    state.isRunning = true;
+                    updateUIStatus(true);
+                    playVideoByIndex(state.currentVideoIdx >= 0 ? state.currentVideoIdx : 0);
+                }
+                return;
+            }
+
+            // Key F: Toggle Fast-Track mode
+            if (e.key === 'f' || e.key === 'F') {
+                toggleFT();
+                return;
+            }
+
+            // Key L: Toggle Live Stream
+            if (e.key === 'l' || e.key === 'L') {
+                toggleStreamControl();
+                return;
+            }
+
+            // Key /: Focus search filter
+            if (e.key === '/') {
+                e.preventDefault();
+                document.getElementById('filter-input').focus();
+                return;
+            }
+
+            // Các phím số 0-9 (cả dãy trên và bàn phím phụ Numpad)
+            const num = parseInt(e.key, 10);
+            if (!isNaN(num)) {
+                e.preventDefault();
+                keyBuffer += num;
+                const isShift = e.shiftKey;
+                clearTimeout(keyBufferTimeout);
+
+                keyBufferTimeout = setTimeout(() => {
+                    const targetNum = parseInt(keyBuffer, 10);
+                    keyBuffer = '';
+                    handleQuickKeyVideo(targetNum, isShift);
+                }, 400); // 400ms đệm gõ phím 2 chữ số (ví dụ: gõ 1 rồi 2 -> video 12)
+            }
+        });
+
+        function handleQuickKeyVideo(videoNum, isShift) {
+            if (!state.isRunning) {
+                addLog("SYSTEM", "⚠️ Vui lòng chọn Scene trước khi bấm phím số chọn video!");
+                return;
+            }
+
+            let target = state.videos.find(v => v.id === videoNum);
+            if (!target && videoNum > 0 && videoNum <= state.videos.length) {
+                target = state.videos[videoNum - 1];
+            }
+
+            if (target) {
+                if (isShift || state.fastTrack) {
+                    addLog("FAST-SWITCH", `⚡ [HOTKEY] Cắt phát ngay: ${target.name}`);
+                    const targetIdx = state.videos.findIndex(v => v.name === target.name);
+                    stopWorkerTimer();
+                    playVideoByIndex(targetIdx);
+                } else {
+                    addLog("QUEUE", `⌨️ [HOTKEY] Phím bấm -> Xếp #${videoNum} (${target.name}) vào hàng đợi`);
+                    orderVideo(target.name);
+                }
+            } else {
+                addLog("SYSTEM", `⚠️ Không tìm thấy video số #${videoNum} trong Scene hiện tại`);
+            }
+        }
+
+        // --- AUTO-PILOT AI: LIVE CHAT TRIGGER ---
+        function toggleAutoPilotMode() {
+            autopilotMode = autopilotMode === 'queue' ? 'fast_track' : 'queue';
+            const btn = document.getElementById('btn-autopilot-mode');
+            if (autopilotMode === 'fast_track') {
+                btn.className = "px-2.5 py-1 rounded-lg border border-rose-500/40 bg-rose-950/40 text-rose-300 font-bold text-[10px] uppercase transition-all shadow-lg shadow-rose-950/50";
+                btn.innerText = "⚡ Tự Cắt Phát Ngay (Fast-Switch)";
+            } else {
+                btn.className = "px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-950/40 text-sky-300 font-bold text-[10px] uppercase transition-all";
+                btn.innerText = "📥 Tự Xếp Hàng Đợi (Queue)";
+            }
+        }
+
+        function handleLiveComment(commentText, author = "Khách hàng Live") {
+            if (!commentText || !state.isRunning) {
+                if (!state.isRunning) addLog("AUTO-PILOT", "⚠️ Cần chọn Scene trước khi chạy Auto-Pilot Live Chat!");
+                return;
+            }
+
+            const patterns = [
+                /(?:mẫu|mau|mã|ma|áo|ao|sp|sản phẩm|san pham|số|so|b|#|base[_\s]?)\s*(\d+)/i,
+                /^\s*(\d+)\s*$/
+            ];
+
+            let matchedNum = null;
+            for (const p of patterns) {
+                const m = commentText.match(p);
+                if (m) {
+                    matchedNum = parseInt(m[1], 10);
+                    break;
+                }
+            }
+
+            if (matchedNum === null) {
+                addLog("AUTO-PILOT", `💬 [CHAT] ${author}: "${commentText}" (Không có số/mã SP)`);
+                return;
+            }
+
+            let target = state.videos.find(v => {
+                const n = v.name.toLowerCase();
+                return n.includes(`base_${matchedNum}`) || n.includes(`base${matchedNum}`);
+            });
+
+            if (!target && matchedNum > 0 && matchedNum <= state.videos.length) {
+                target = state.videos[matchedNum - 1];
+            }
+
+            if (!target) {
+                addLog("AUTO-PILOT", `⚠️ [CHAT] ${author} yêu cầu mã #${matchedNum} nhưng Scene không có`);
+                return;
+            }
+
+            if (autopilotMode === 'fast_track') {
+                addLog("AUTO-PILOT", `🤖 [AUTO-PILOT] ${author}: "${commentText}" -> ⚡ Cắt phát ngay Base #${matchedNum} (${target.name})`);
+                const targetIdx = state.videos.findIndex(v => v.name === target.name);
+                stopWorkerTimer();
+                playVideoByIndex(targetIdx);
+            } else {
+                addLog("AUTO-PILOT", `🤖 [AUTO-PILOT] ${author}: "${commentText}" -> 📥 Đã thêm Base #${matchedNum} (${target.name}) vào Queue`);
+                orderVideo(target.name);
+            }
+        }
+
+        function simulateLiveChat() {
+            const input = document.getElementById('chat-sim-input');
+            const val = input.value.trim();
+            if (!val) return;
+            handleLiveComment(val, "Khách hàng Live");
+            input.value = '';
+        }
+
+        // --- KHỞI ĐỘNG HỆ THỐNG & ĐĂNG KÝ PWA SERVICE WORKER ---
         window.addEventListener('DOMContentLoaded', () => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            }
+
             const savedKey = localStorage.getItem('hlc_cloud_key');
             if (savedKey) {
                 document.getElementById('key-input').value = savedKey;

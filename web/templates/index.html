@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLC CLOUD | MULTI-BRAND LIVE AUTOMATION</title>
+    <title>HLC CLOUD | MULTI-BRAND LIVE AUTOMATION v2</title>
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#38bdf8">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: #07090e; color: #e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; overflow-x: hidden; }
@@ -135,6 +137,24 @@
             </div>
         </header>
 
+        <!-- STREAM DECK HUD: THANH PHÍM TẮT NHANH -->
+        <div class="mb-5 px-4 py-2.5 glass rounded-2xl border border-sky-500/20 flex flex-wrap items-center justify-between gap-3 text-xs shadow-lg">
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 font-bold text-[10px] tracking-wider border border-sky-500/40 flex items-center gap-1">
+                    <span>🎮</span> STREAM DECK HUD
+                </span>
+                <span class="text-slate-400 text-[11px] hidden sm:inline">Phím tắt bàn phím siêu tốc:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-[11px] font-mono text-slate-300">
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-sky-400 font-bold">1..28</kbd> Xếp Queue</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-rose-400 font-bold">Shift + Số</kbd> Cắt Phát Ngay</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-amber-400 font-bold">Space</kbd> Chờ / Chạy</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-emerald-400 font-bold">F</kbd> Fast-Track</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-rose-400 font-bold">L</kbd> Live Stream</span>
+                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-400 font-bold">/</kbd> Tìm Video</span>
+            </div>
+        </div>
+
         <!-- Main Layout Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <!-- Left Side (3 cols): Active Player & Dynamic Matrix Grid -->
@@ -201,6 +221,33 @@
                     </div>
                     <div id="ql" class="flex flex-col gap-2 overflow-y-auto pr-1 flex-grow">
                         <div class="text-xs text-slate-500 italic p-2 text-center">Chờ chọn Scene...</div>
+                    </div>
+                </div>
+
+                <!-- AUTO-PILOT AI: LIVE CHAT TRIGGER -->
+                <div class="glass p-5 rounded-2xl flex flex-col gap-3 shadow-xl border-t-2 border-emerald-500/50">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            Auto-Pilot AI Chat Trigger
+                        </h3>
+                        <span id="autopilot-badge" class="text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono font-bold">READY</span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                        Tự động nhận diện từ khóa bình luận (<code class="text-emerald-400 font-mono">mẫu 4</code>, <code class="text-emerald-400 font-mono">áo 12</code>, <code class="text-emerald-400 font-mono">mã 8</code>...) để đổi video ngay!
+                    </p>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400 text-[11px]">Chế độ:</span>
+                        <button id="btn-autopilot-mode" onclick="toggleAutoPilotMode()" class="px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-950/40 text-sky-300 font-bold text-[10px] uppercase transition-all">
+                            📥 Tự Xếp Hàng Đợi (Queue)
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-sim-input" placeholder="Nhập thử bình luận khách..." class="bg-slate-900 border border-slate-700 text-white text-xs px-3 py-2 rounded-xl flex-grow outline-none focus:border-emerald-500 transition-all font-mono" onkeypress="if(event.key==='Enter') simulateLiveChat()">
+                        <button type="button" onclick="simulateLiveChat()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg shadow-emerald-600/30 flex items-center gap-1">
+                            <span>Gửi</span>
+                            <span>🚀</span>
+                        </button>
                     </div>
                 </div>
 
@@ -709,6 +756,116 @@
         }
         setInterval(checkStreamStatus, 1500);
 
+        // --- AUTO-PILOT AI: LIVE CHAT TRIGGER ---
+        let autopilotMode = 'queue'; // 'queue' hoặc 'fast_track'
+
+        function toggleAutoPilotMode() {
+            autopilotMode = autopilotMode === 'queue' ? 'fast_track' : 'queue';
+            const btn = document.getElementById('btn-autopilot-mode');
+            if (autopilotMode === 'fast_track') {
+                btn.className = "px-2.5 py-1 rounded-lg border border-rose-500/40 bg-rose-950/40 text-rose-300 font-bold text-[10px] uppercase transition-all shadow-lg shadow-rose-950/50";
+                btn.innerText = "⚡ Tự Cắt Phát Ngay (Fast-Switch)";
+            } else {
+                btn.className = "px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-950/40 text-sky-300 font-bold text-[10px] uppercase transition-all";
+                btn.innerText = "📥 Tự Xếp Hàng Đợi (Queue)";
+            }
+        }
+
+        async function simulateLiveChat() {
+            const input = document.getElementById('chat-sim-input');
+            const val = input.value.trim();
+            if (!val) return;
+            input.value = '';
+
+            try {
+                const res = await fetch('/api/chat/webhook', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        comment: val,
+                        author: 'Khách hàng Live',
+                        mode: autopilotMode
+                    })
+                });
+                const data = await res.json();
+                if (!data.success) {
+                    alert(data.message || "Không xử lý được bình luận");
+                }
+            } catch (e) {
+                alert("Lỗi: " + e.message);
+            }
+        }
+
+        // --- PHÍM TẮT BÀN PHÍM (KEYBOARD SHORTCUTS & STREAM DECK HUD) ---
+        let keyBuffer = '';
+        let keyBufferTimeout = null;
+
+        window.addEventListener('keydown', (e) => {
+            if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                return;
+            }
+
+            // Spacebar: Toggle Chờ/Chạy
+            if (e.code === 'Space') {
+                e.preventDefault();
+                setStandby();
+                return;
+            }
+
+            // Key F: Toggle Fast-Track mode
+            if (e.key === 'f' || e.key === 'F') {
+                toggleFT();
+                return;
+            }
+
+            // Key L: Toggle Live Stream
+            if (e.key === 'l' || e.key === 'L') {
+                toggleStreamControl();
+                return;
+            }
+
+            // Key /: Focus search filter
+            if (e.key === '/') {
+                e.preventDefault();
+                document.getElementById('filter-input').focus();
+                return;
+            }
+
+            // Các phím số 0-9 (cả dãy trên và bàn phím phụ Numpad)
+            const num = parseInt(e.key, 10);
+            if (!isNaN(num)) {
+                e.preventDefault();
+                keyBuffer += num;
+                const isShift = e.shiftKey;
+                clearTimeout(keyBufferTimeout);
+
+                keyBufferTimeout = setTimeout(() => {
+                    const targetNum = parseInt(keyBuffer, 10);
+                    keyBuffer = '';
+                    handleQuickKeyVideo(targetNum, isShift);
+                }, 400); // 400ms đệm gõ phím 2 chữ số (ví dụ: gõ 1 rồi 2 -> video 12)
+            }
+        });
+
+        function handleQuickKeyVideo(videoNum, isShift) {
+            let target = currentProfileVideos.find(v => v.id === videoNum);
+            if (!target && videoNum > 0 && videoNum <= currentProfileVideos.length) {
+                target = currentProfileVideos[videoNum - 1];
+            }
+
+            if (target) {
+                if (isShift) {
+                    // Tạm bật FT để cắt ngang
+                    const oldFT = ft;
+                    ft = true;
+                    orderVideo(target.name);
+                    ft = oldFT;
+                } else {
+                    orderVideo(target.name);
+                }
+            }
+        }
+
         // --- TERMINATE CORE ---
         function terminate() {
             if(confirm("XÁC NHẬN: Bạn có chắc chắn muốn tắt hoàn toàn tiến trình ngầm và giải phóng OBS?")) {
@@ -720,6 +877,9 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/static/sw.js').catch(() => {});
+            }
             refreshOBSScenes();
             updateCycle();
             checkStreamStatus();

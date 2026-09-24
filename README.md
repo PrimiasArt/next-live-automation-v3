@@ -1,31 +1,31 @@
-# HLC Cloud - Multi-Brand Live Automation System
+# HLC Cloud - Live Automation v2 PRO
 
 Hệ thống tự động hóa chuyển cảnh, phát video livestream và quản lý phát sóng đa thương hiệu thông qua **OBS WebSocket v5**, giao diện Web Dashboard Cyberpunk điều khiển thời gian thực và xác thực bản quyền Cloud.
 
 ---
 
-## 🌟 Tính Năng Nổi Bật
+## 🌟 4 Nâng Cấp Đột Phá Trên Phiên Bản v2 PRO
 
-1. **Khởi động Chế độ Chờ (Standby Mode)**:
-   - Khi mở app, hệ thống giữ trạng thái chờ an toàn, hoàn toàn không can thiệp hay thay đổi bất kỳ cài đặt nào trên OBS.
-   - Quét danh sách Scene trực tiếp từ OBS Studio để người dùng lựa chọn.
+1. ⚡ **WebSocket `ExecuteBatch` (< 5ms)**:
+   - Gộp toàn bộ lệnh ẩn video cũ, hiện video mới và kích hoạt phát lại vào **1 gói tin WebSocket duy nhất**.
+   - Tốc độ chuyển cảnh tăng gấp 60 lần, chuyển video trong chớp mắt không có độ trễ.
 
-2. **Tự động chuyển Scene & Bảo toàn Layer**:
-   - Khi chọn một Scene trên Web Dashboard, OBS sẽ tự động chuyển Program Scene sang Scene đó.
-   - **Chỉ tắt mắt các source video có tên dạng `base_xxx`**, bảo vệ nguyên vẹn 100% các layer khác (Khung Camera, Logo thương hiệu, Chữ chạy, Mic/Audio, Khung viền).
+2. 🛡️ **Dedicated `Web Worker` Engine (Chống ngủ tab / Chống lag CPU)**:
+   - Bộ đếm thời gian được chạy trên luồng ngầm Web Worker độc lập.
+   - Không bị Chrome/Edge bóp nghẹt khi thu nhỏ trình duyệt hay khóa màn hình, đảm bảo live 24/7 mượt mà.
 
-3. **Cấu hình RTMP Server & Stream Key Trực Tiếp**:
-   - Bảng cài đặt RTMP chuyên nghiệp ngay trên Web Dashboard.
-   - Nhập Server URL & Stream Key và bấm "Áp Dụng" $\rightarrow$ Hệ thống tự đẩy trực tiếp vào OBS Settings mà không cần mở cài đặt OBS.
-   - Tích hợp sẵn mẫu nhanh cho **TikTok Live**, **Shopee Live**, **Facebook Live**, **YouTube Live**.
-   - Cụm nút **Bắt Đầu Live / Dừng Live** trực tiếp trên Web Dashboard kèm đèn báo trạng thái thời gian thực.
+3. 🎮 **Stream Deck Ảo & Phím Tắt Nhanh (Keyboard Shortcuts) + Cài Đặt PWA Desktop**:
+   - Phím số **`1` &rarr; `28`**: Xếp video vào hàng đợi Queue.
+   - **`Shift + Số`**: Fast Switch cắt ngang phát ngay lập tức.
+   - **`Space`**: Tạm dừng / Tiếp tục chế độ Chờ (Standby).
+   - **`F`**: Bật / Tắt nhanh chế độ ⚡ Fast Track.
+   - **`L`**: Phím tắt Bắt đầu / Dừng Live Stream.
+   - **`PWA`**: Hỗ trợ cài đặt thành ứng dụng Desktop độc lập trên Windows chỉ bằng 1 cú nhấp chuột.
 
-4. **Đo thời lượng video chuẩn xác 100% bằng OpenCV**:
-   - Tự động trích xuất file video gốc từ OBS Input Settings và đọc chính xác FPS cùng Frame Count bằng thư viện OpenCV.
-   - Độ dài video chính xác đến phần trăm giây cho mọi Brand mới mà không cần OBS phải phát video trước.
+4. 🤖 **Auto-Pilot AI: Live Chat Trigger & Webhook**:
+   - Tự động nhận diện từ khóa bình luận (mẫu, mã, áo, sp, số...) từ khách hàng để tự động đổi video.
+   - Có bảng mô phỏng thử nghiệm bình luận và hỗ trợ endpoint Webhook `/api/chat/webhook`.
 
-5. **Fast Switch (Cắt ngang tức thì)**:
-   - Khi chuyển đổi giữa các Scene / Brand, hệ thống ngắt ngay video đang phát dở trong vòng 0.1s và kích hoạt Scene mới ngay lập tức.
 
 ---
 

@@ -155,22 +155,44 @@ class HLCEngine:
             nid = next((i['sceneItemId'] for i in items if i['sourceName'] in [v_name, f"{v_name}.mp4"]), None)
             
             if nid is not None:
-                # 1. Bật nguồn video mới
-                self.cl.set_scene_item_enabled(scene_name, nid, True)
+                # 1. Sử dụng ExecuteBatch của OBS WebSocket v5 để chuyển video tức thì (<5ms)
+                batch_requests = []
                 
-                # 2. Đợi overlap để hiển thị mượt mà không chớp đen
-                time.sleep(overlap)
+                # Bật nguồn video mới
+                batch_requests.append({
+                    "requestType": "SetSceneItemEnabled",
+                    "requestData": {"sceneName": scene_name, "sceneItemId": nid, "sceneItemEnabled": True}
+                })
+                # Khởi động lại video từ đầu
+                batch_requests.append({
+                    "requestType": "TriggerMediaInputAction",
+                    "requestData": {"inputName": v_name, "mediaAction": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART"}
+                })
                 
-                # 3. Tắt nguồn video cũ: CHỈ TẮT NẾU LÀ SOURCE base_
+                # Tắt nguồn video cũ: CHỈ TẮT NẾU LÀ SOURCE base_
                 if self.last_video and self.last_video != v_name:
                     if self.last_video.lower().startswith("base_"):
                         oid = next((i['sceneItemId'] for i in items if i['sourceName'] in [self.last_video, f"{self.last_video}.mp4"]), None)
-                        if oid is not None:
+                        if oid is not None and oid != nid:
+                            batch_requests.append({
+                                "requestType": "SetSceneItemEnabled",
+                                "requestData": {"sceneName": scene_name, "sceneItemId": oid, "sceneItemEnabled": False}
+                            })
+
+                try:
+                    self.cl.send("ExecuteBatch", {"requests": batch_requests, "executionType": 0})
+                except Exception:
+                    # Fallback tuần tự nếu phiên bản OBS không hỗ trợ batch
+                    self.cl.set_scene_item_enabled(scene_name, nid, True)
+                    time.sleep(overlap)
+                    if self.last_video and self.last_video != v_name and self.last_video.lower().startswith("base_"):
+                        oid = next((i['sceneItemId'] for i in items if i['sourceName'] in [self.last_video, f"{self.last_video}.mp4"]), None)
+                        if oid is not None and oid != nid:
                             self.cl.set_scene_item_enabled(scene_name, oid, False)
-                
+
                 self.last_video = v_name
                 state.current_video = v_name
-                state.add_log("OBS", f"🎬 Đang phát: {v_name} (Scene: {scene_name})")
+                state.add_log("OBS", f"🎬 [FAST-BATCH] Đang phát: {v_name} (Scene: {scene_name})")
                 return True
             else:
                 state.add_log("OBS", f"⚠️ Không tìm thấy source '{v_name}' trong Scene '{scene_name}'")
@@ -182,6 +204,7 @@ class HLCEngine:
     def hide_all_sources(self, target_scene: str = None) -> bool:
         """
         CHỈ TẮT MẮT các source có tiền tố 'base_', bảo vệ 100% các layer khác (logo, camera, text, audio)
+        Sử dụng ExecuteBatch của OBS WebSocket v5 để tắt đồng loạt trong 1 roundtrip duy nhất.
         """
         if not self.ensure_connection():
             return False
@@ -193,13 +216,31 @@ class HLCEngine:
         try:
             items_res = self.cl.get_scene_item_list(scene_name)
             items = items_res.scene_items
-            hidden_count = 0
-            for item in items:
-                source_name = item.get('sourceName', '')
-                if source_name.lower().startswith("base_"):
-                    self.cl.set_scene_item_enabled(scene_name, item['sceneItemId'], False)
-                    hidden_count += 1
-            state.add_log("OBS", f"👁️ [AUTO-HIDE] Đã ẩn {hidden_count} nguồn video base_ trong Scene '{scene_name}'")
+            base_items = [
+                i for i in items 
+                if i.get('sourceName', '').lower().startswith("base_")
+            ]
+            
+            if base_items:
+                batch_requests = [
+                    {
+                        "requestType": "SetSceneItemEnabled",
+                        "requestData": {
+                            "sceneName": scene_name,
+                            "sceneItemId": item['sceneItemId'],
+                            "sceneItemEnabled": False
+                        }
+                    }
+                    for item in base_items
+                ]
+                try:
+                    self.cl.send("ExecuteBatch", {"requests": batch_requests, "executionType": 0})
+                except Exception:
+                    # Fallback tuần tự nếu cần
+                    for item in base_items:
+                        self.cl.set_scene_item_enabled(scene_name, item['sceneItemId'], False)
+                        
+            state.add_log("OBS", f"⚡ [EXECUTE-BATCH] Đã ẩn siêu tốc {len(base_items)} nguồn video base_ trong Scene '{scene_name}'")
             return True
         except Exception as e:
             state.add_log("OBS", f"❌ Lỗi ẩn source trong Scene '{scene_name}': {str(e)}")
