@@ -1,6 +1,6 @@
-# HLC Cloud - Live Automation v2 PRO
+# HLC Cloud - Live Automation v3
 
-Hệ thống tự động hóa chuyển cảnh, phát video livestream và quản lý phát sóng đa thương hiệu thông qua **OBS WebSocket v5**, giao diện Web Dashboard Cyberpunk điều khiển thời gian thực và xác thực bản quyền Cloud.
+Hệ thống tự động hóa chuyển cảnh, phát video livestream và quản lý phát sóng đa thương hiệu thông qua **OBS WebSocket v5**, giao diện Web Dashboard Cyberpunk điều khiển thời gian thực và xác thực bản quyền Cloud. Bản v3 được tạo độc lập từ v2 để tiếp tục phát triển và bổ sung các tính năng đột phá mới.
 
 ---
 

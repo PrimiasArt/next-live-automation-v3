@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
-title HLC Live Automation - Auto Cloud Tunnel
+title HLC Live Automation v3 - Auto Cloud Tunnel
 
 echo ======================================================================
-echo           🚀 HLC LIVE AUTOMATION - KHOI DONG HE THONG TU DONG
+echo           🚀 HLC LIVE AUTOMATION v3 - KHOI DONG HE THONG TU DONG
 echo ======================================================================
 echo.
 echo [*] Dang kiem tra moi truong Python va thu vien...
