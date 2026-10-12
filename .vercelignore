@@ -1,12 +1,15 @@
-# Prevent Vercel from treating the repository as a Python backend project
+# Ignore local script files and heavy backend folders
 requirements.txt
 packages.txt
 pyproject.toml
 Pipfile
 Pipfile.lock
-*.py
 core/
 web/
 profiles/
 *.bat
+config.py
+run.py
+streamlit_app.py
+HLCx*.py
 __pycache__/
