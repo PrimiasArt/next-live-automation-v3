@@ -15,6 +15,7 @@ class AppState:
         self.api_key_id = None
         self.quota_remaining = 0
         self.web_logs = deque(maxlen=40)
+        self.active_sources_by_group = {}
         
         # Profile ban đầu là None (Không có scene mặc định)
         self.current_profile = None
@@ -73,6 +74,30 @@ class AppState:
                 self.add_log("QUEUE", f"📥 Đã xếp video '{video_name}' vào cuối hàng chờ")
             return True
 
+    def remove_task(self, index: int) -> bool:
+        with self._lock:
+            if index is not None and 0 <= index < len(self.task_queue):
+                temp = list(self.task_queue)
+                removed = temp.pop(index)
+                self.task_queue = deque(temp, maxlen=20)
+                self.add_log("QUEUE", f"🗑️ Đã xóa video '{removed}' khỏi hàng đợi")
+                return True
+            return False
+
+    def clear_queue(self) -> bool:
+        with self._lock:
+            self.task_queue.clear()
+            self.add_log("QUEUE", "🧹 Đã xóa sạch toàn bộ hàng chờ")
+            return True
+
+    def set_group_active_source(self, group_id: str, source_name: str):
+        with self._lock:
+            self.active_sources_by_group[group_id] = source_name
+
+    def remove_group_active_source(self, group_id: str):
+        with self._lock:
+            self.active_sources_by_group.pop(group_id, None)
+
     def get_next_task(self):
         with self._lock:
             if self.task_queue:
@@ -115,7 +140,8 @@ class AppState:
                 "quota_remaining": self.quota_remaining,
                 "logs": list(self.web_logs),
                 "public_url": self.public_url,
-                "current_profile": p_dict
+                "current_profile": p_dict,
+                "active_sources": dict(self.active_sources_by_group)
             }
 
 state = AppState()

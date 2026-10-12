@@ -2,6 +2,7 @@ import os
 import signal
 from flask import Blueprint, request, jsonify
 from core.state import state
+from core.obs_engine import engine
 
 live_bp = Blueprint('live', __name__)
 
@@ -100,6 +101,52 @@ def chat_webhook():
         "fast_track": is_ft,
         "message": f"Đã tự động kích hoạt video '{target_video}'"
     })
+
+@live_bp.route('/api/queue/remove', methods=['POST'])
+def remove_queue_item():
+    data = request.json or {}
+    index = data.get('index')
+    if index is not None and state.remove_task(int(index)):
+        return jsonify({"success": True})
+    return jsonify({"success": False, "message": "Index hàng đợi không hợp lệ"}), 400
+
+@live_bp.route('/api/queue/clear', methods=['POST'])
+def clear_all_queue():
+    state.clear_queue()
+    return jsonify({"success": True})
+
+@live_bp.route('/api/obs/sources', methods=['GET'])
+@live_bp.route('/api/processor/sources', methods=['GET'])
+def get_obs_sources():
+    scene_name = request.args.get('scene')
+    sources = engine.get_scene_sources(scene_name)
+    return jsonify({
+        "success": True,
+        "sources": sources
+    })
+
+@live_bp.route('/api/obs/bulk_create', methods=['POST'])
+@live_bp.route('/api/processor/bulk_create', methods=['POST'])
+def bulk_create_obs_sources():
+    data = request.json or {}
+    folder_path = data.get('folder_path', '').strip()
+    source_type = data.get('source_type', 'ffmpeg_source')
+    file_pattern = data.get('file_pattern', '').strip()
+    name_pattern = data.get('name_pattern', '').strip()
+    looping = bool(data.get('looping', True))
+    visible = bool(data.get('visible', True))
+    scene_name = data.get('scene_name')
+
+    res = engine.bulk_create_sources(
+        folder_path=folder_path,
+        source_type=source_type,
+        file_pattern=file_pattern,
+        name_pattern=name_pattern,
+        looping=looping,
+        visible=visible,
+        target_scene=scene_name
+    )
+    return jsonify(res)
 
 @live_bp.route('/api/terminate', methods=['POST'])
 def terminate():

@@ -1,0 +1,12 @@
+# Prevent Vercel from treating the repository as a Python backend project
+requirements.txt
+packages.txt
+pyproject.toml
+Pipfile
+Pipfile.lock
+*.py
+core/
+web/
+profiles/
+*.bat
+__pycache__/

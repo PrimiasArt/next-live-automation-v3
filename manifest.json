@@ -1,0 +1,16 @@
+{
+  "name": "HLC Hybrid Center v2",
+  "short_name": "HLC Live v2",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07090e",
+  "theme_color": "#38bdf8",
+  "description": "OBS Multi-Brand Live Automation & Smart Controller",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2307090e'/><circle cx='50' cy='50' r='35' fill='none' stroke='%2338bdf8' stroke-width='8'/><polygon points='43,35 68,50 43,65' fill='%2338bdf8'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

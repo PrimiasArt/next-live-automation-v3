@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "id": "group_promo",
+      "name": "Khuyến Mãi & Voucher",
+      "sources": [
+        {
+          "name": "Scheme 1",
+          "thumb": ""
+        },
+        {
+          "name": "Scheme 2",
+          "thumb": ""
+        }
+      ]
+    },
+    {
+      "id": "group_overlay",
+      "name": "Khung Viền & Logo",
+      "sources": []
+    }
+  ]
+}

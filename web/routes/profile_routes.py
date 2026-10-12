@@ -137,12 +137,14 @@ def delete_profile(profile_id):
         return jsonify({"success": False, "message": "Không thể xóa profile này"}), 400
 
 @profile_bp.route('/api/obs/scenes', methods=['GET'])
+@profile_bp.route('/api/processor/scenes', methods=['GET'])
 def get_obs_scenes():
     engine.ensure_connection()
     result = profile_manager.scan_obs_scenes(engine.cl)
     return jsonify(result)
 
 @profile_bp.route('/api/obs/scene_items', methods=['GET'])
+@profile_bp.route('/api/processor/scene_items', methods=['GET'])
 def get_obs_scene_items():
     scene_name = request.args.get('scene_name', '').strip()
     if not scene_name:

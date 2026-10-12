@@ -26,10 +26,23 @@ def main():
     multiprocessing.freeze_support()
 
     print("=" * 70)
-    print("🚀 KHỞI ĐỘNG HỆ THỐNG: HLC CLOUD - DYNAMIC OBS LIVE AUTOMATION")
+    print("🚀 KHỞI ĐỘNG HỆ THỐNG: HLC CLOUD - STREAM PROCESSOR AUTOMATION")
     print("=" * 70)
-    print("⏸️  Hệ thống ở chế độ CHỜ (Standby Mode) - Sẵn sàng kết nối OBS nội bộ.")
+    print("⏸️  Hệ thống ở chế độ CHỜ (Standby Mode) - Sẵn sàng kết nối Bộ Xử Lý Luồng.")
     print("🌐 Đang tự động kích hoạt đường truyền Web Online (Cloudflare Tunnel)...")
+
+    # 0. Tự động kiểm tra và khởi chạy Stream Processor ở chế độ ngầm (Silent Tray)
+    from core.stream_process_manager import process_manager
+    is_running, pid = process_manager.get_process_info()
+    if not is_running:
+        print("⚙️  Stream Processor chưa bật -> Tự động khởi chạy ngầm (System Tray)...")
+        res = process_manager.start_processor(minimize_to_tray=True)
+        if res.get("success"):
+            print(f"✅ Stream Processor đã khởi chạy ngầm thành công (PID: {res.get('pid')})")
+        else:
+            print(f"⚠️ {res.get('message')}")
+    else:
+        print(f"✅ Stream Processor đang hoạt động ngầm (PID: {pid})")
 
     # 1. Khởi tạo Flask App
     app = create_app()

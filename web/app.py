@@ -6,6 +6,7 @@ from web.routes.auth_routes import auth_bp
 from web.routes.live_routes import live_bp
 from web.routes.profile_routes import profile_bp
 from web.routes.stream_routes import stream_bp
+from web.routes.group_routes import group_bp
 
 def create_app():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +21,7 @@ def create_app():
     app.register_blueprint(live_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(stream_bp)
+    app.register_blueprint(group_bp)
 
     @app.route('/')
     def index():
